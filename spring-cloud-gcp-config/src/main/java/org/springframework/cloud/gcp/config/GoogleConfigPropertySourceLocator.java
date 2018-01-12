@@ -1,5 +1,5 @@
 /*
- *  Copyright 2017 original author or authors.
+ *  Copyright 2018 original author or authors.
  *
  *  Licensed under the Apache License, Version 2.0 (the "License");
  *  you may not use this file except in compliance with the License.
@@ -25,13 +25,8 @@ import com.google.api.gax.core.CredentialsProvider;
 import com.google.auth.Credentials;
 import com.google.auth.oauth2.GoogleCredentials;
 
-import org.springframework.boot.autoconfigure.AutoConfigureAfter;
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.cloud.bootstrap.config.PropertySourceLocator;
-import org.springframework.cloud.gcp.core.GcpContextAutoConfiguration;
 import org.springframework.cloud.gcp.core.GcpProjectIdProvider;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.MapPropertySource;
 import org.springframework.core.env.PropertySource;
@@ -50,12 +45,7 @@ import org.springframework.web.client.RestTemplate;
  *
  * @author Jisha Abubaker
  */
-@Configuration
-@ConditionalOnProperty(prefix = "spring.cloud.gcp.config", name = "enabled", havingValue = "true",
-	matchIfMissing = true)
-@AutoConfigureAfter(GcpContextAutoConfiguration.class)
-@EnableConfigurationProperties(GcpConfigProperties.class)
-public class GoogleConfigPropertySourceLocator implements PropertySourceLocator {
+class GoogleConfigPropertySourceLocator implements PropertySourceLocator {
 
 	private static final String RUNTIMECONFIG_API_ROOT = "https://runtimeconfig.googleapis.com/v1beta1/";
 
@@ -78,7 +68,7 @@ public class GoogleConfigPropertySourceLocator implements PropertySourceLocator 
 
 	private boolean enabled;
 
-	public GoogleConfigPropertySourceLocator(GcpProjectIdProvider projectIdProvider,
+	GoogleConfigPropertySourceLocator(GcpProjectIdProvider projectIdProvider,
 			CredentialsProvider credentialsProvider,
 			GcpConfigProperties gcpConfigPropertiesProvider) throws IOException {
 		Assert.notNull(gcpConfigPropertiesProvider,
